@@ -17,20 +17,28 @@ module tt_um_prampal_t_flip_flop (
 );
 
   // All output pins must be assigned. If not used, assign to 0.
-    wire din = ui_in[0];
-    reg q;
+    wire tin = ui_in[0];
+    wire q;
+    wire qbar;
+    reg tq;
 
     always @(posedge clk or negedge rst_n)
-    begin
-        if(!rst_n)
-            q <= 1'b0;
-        else
-            q <= din;
+        begin
+            if(!rst_n)
+                tq <= 1'b0;
+            else
+            begin
+            if (tin)
+                tq <= ~tq;
         end
+    end
 
+    assign q = tq;
+    assign qbar = ~q;
+    
     // All output pins must be assigned. If not used, assign to 0.
     assign uo_out[0] = q;
-    assign uo_out[1] = 1'b0;
+    assign uo_out[1] = qbar;
     assign uo_out[2] = 1'b0;
     assign uo_out[3] = 1'b0;
     assign uo_out[4] = 1'b0;
